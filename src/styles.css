@@ -1,6 +1,19 @@
 /* You can add global styles to this file, and also import other style files */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: "Open Sans", sans-serif;
+}
+
 body {
   background-color: black;
   color: white;
   margin: 0;
+}
+
+p {
+  margin: 0;
+  padding: 0;
 }
