@@ -1,0 +1,27 @@
+<table>
+  <thead>
+    @if(timers().length > 0){
+    <tr>
+      <th>Title</th>
+      <th>Timer</th>
+      <th>Actions</th>
+    </tr>
+    } @else {
+    <tr>
+      <td colspan="3">No timers found</td>
+    </tr>
+    }
+  </thead>
+  <tbody>
+    @for(timer of timers(); track timer.title) {
+    <tr>
+      <td>{{ timer.title }}</td>
+      <td>{{ timer.hours }}:{{ timer.minutes }}</td>
+      <td class="actions">
+        <button class="stop-button">Stop</button>
+        <button class="delete-button">Delete</button>
+      </td>
+    </tr>
+    }
+  </tbody>
+</table>

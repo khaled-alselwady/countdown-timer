@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { InputTimer } from './input-timer.model';
+import { Timer } from './input-timer.model';
 
 @Component({
   selector: 'app-input-timer',
@@ -10,7 +10,7 @@ import { InputTimer } from './input-timer.model';
   styleUrl: './input-timer.component.css',
 })
 export class InputTimerComponent {
-  inputTimerData = signal<InputTimer>({ hours: 0, minutes: 0, title: '' });
+  inputTimerData = signal<Timer>({ hours: 0, minutes: 0, title: '' });
 
   validateInputs() {
     if (this.inputTimerData().hours < 0) {
