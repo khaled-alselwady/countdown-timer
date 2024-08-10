@@ -1,6 +1,6 @@
-import { Component, signal } from '@angular/core';
+import { Component, output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Timer } from './input-timer.model';
+import type { Timer } from '../timer.model';
 
 @Component({
   selector: 'app-input-timer',
@@ -10,7 +10,8 @@ import { Timer } from './input-timer.model';
   styleUrl: './input-timer.component.css',
 })
 export class InputTimerComponent {
-  inputTimerData = signal<Timer>({ hours: 0, minutes: 0, title: '' });
+  inputTimerData = signal<Timer>({ id: 0, hours: 0, minutes: 0, title: '' });
+  add = output<Timer>();
 
   validateInputs() {
     if (this.inputTimerData().hours < 0) {
@@ -35,7 +36,12 @@ export class InputTimerComponent {
 
   onSubmit() {
     this.validateInputs();
-    console.log(this.inputTimerData());
+    this.add.emit({
+      id: Math.random(),
+      hours: this.inputTimerData().hours,
+      minutes: this.inputTimerData().minutes,
+      title: this.inputTimerData().title,
+    });
     this.reset();
   }
 }

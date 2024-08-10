@@ -1,3 +1,5 @@
+<app-input-timer (add)="onAddNewTimer($event)" />
+
 <table>
   <thead>
     @if(timers().length > 0){
@@ -13,15 +15,19 @@
     }
   </thead>
   <tbody>
-    @for(timer of timers(); track timer.title) {
+    @for(timer of timers(); track timer.id) {
     <tr>
       <td>{{ timer.title }}</td>
-      <td>{{ timer.hours }}:{{ timer.minutes }}</td>
+      <td
+        [time]="{ hours: timer.hours, minutes: timer.minutes, seconds: 60 }"
+        appTd
+      ></td>
       <td class="actions">
-        <button class="stop-button">Stop</button>
-        <button class="delete-button">Delete</button>
+        <button class="Pause-button" (click)="onPause()" #pause>Pause</button>
+        <button class="delete-button" (click)="onDelete()">Delete</button>
       </td>
     </tr>
+
     }
   </tbody>
 </table>
