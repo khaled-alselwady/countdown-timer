@@ -1,0 +1,9 @@
+header {
+  padding: 20px;
+  margin: 0 25%;
+  font-size: 3.5rem;
+  text-align: center;
+  background-color: rgb(91, 28, 150);
+  border-bottom-left-radius: 7px;
+  border-bottom-right-radius: 7px;
+}
