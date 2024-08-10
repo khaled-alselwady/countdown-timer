@@ -55,7 +55,7 @@ export class TimersComponent {
     this.changePauseButtonName();
   }
 
-  onDelete() {
-    throw new Error('Method not implemented.');
+  onDelete(id: number) {
+    this.timers.set(this.timers().filter((timer) => timer.id !== id));
   }
 }

@@ -49,7 +49,7 @@ export class CountdownTimerComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.intervalId = setInterval(() => this.handleCountdownTimer(), 0.2);
+    this.intervalId = setInterval(() => this.handleCountdownTimer(), 1000);
   }
 
   ngOnDestroy() {
