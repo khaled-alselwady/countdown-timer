@@ -27,8 +27,15 @@ export class InputTimerComponent {
     }
   }
 
+  reset() {
+    this.inputTimerData().hours = 0;
+    this.inputTimerData().minutes = 0;
+    this.inputTimerData().title = '';
+  }
+
   onSubmit() {
     this.validateInputs();
     console.log(this.inputTimerData());
+    this.reset();
   }
 }
