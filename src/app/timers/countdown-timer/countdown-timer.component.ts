@@ -14,7 +14,9 @@ export class CountdownTimerComponent implements OnInit, OnDestroy {
     minutes: number;
     seconds: number;
   };
-  private seconds = 60;
+  @Input({ required: true }) timerId?: number;
+  isPaused: boolean = false;
+  private seconds = 59;
   private intervalId?: ReturnType<typeof setInterval>;
 
   isTimeOver() {
@@ -24,18 +26,25 @@ export class CountdownTimerComponent implements OnInit, OnDestroy {
   }
 
   handleCountdownTimer() {
-    if (!this.time) return;
+    if (!this.time) {
+      return;
+    }
+
+    if (this.isPaused) {
+      this.stopTimer();
+      return;
+    }
 
     this.time.seconds = this.seconds;
     this.seconds--;
 
     if (this.seconds < 0) {
-      this.seconds = 60;
+      this.seconds = 59;
       this.time.minutes--;
     }
 
     if (this.time.minutes < 0) {
-      this.time.minutes = 60;
+      this.time.minutes = 59;
       this.time.hours--;
     }
 
@@ -44,17 +53,26 @@ export class CountdownTimerComponent implements OnInit, OnDestroy {
     }
 
     if (this.isTimeOver()) {
+      this.stopTimer();
+    }
+  }
+
+  startTimer() {
+    this.stopTimer();
+    this.intervalId = setInterval(() => this.handleCountdownTimer(), 1000);
+  }
+
+  stopTimer() {
+    if (this.intervalId) {
       clearInterval(this.intervalId);
     }
   }
 
   ngOnInit() {
-    this.intervalId = setInterval(() => this.handleCountdownTimer(), 1000);
+    this.startTimer();
   }
 
   ngOnDestroy() {
-    if (this.intervalId) {
-      clearInterval(this.intervalId);
-    }
+    this.stopTimer();
   }
 }

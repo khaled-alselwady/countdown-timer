@@ -37,7 +37,7 @@ p input[type="text"] {
 }
 
 button {
-  background-color: rgb(9, 161, 35);
+  background-color: #28a745;
   color: white;
   padding: 0.5rem 1rem;
   border: none;

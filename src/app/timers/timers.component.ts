@@ -1,8 +1,10 @@
 import {
   Component,
   ElementRef,
+  QueryList,
+  Renderer2,
   signal,
-  ViewChild,
+  ViewChildren,
   ViewEncapsulation,
 } from '@angular/core';
 import type { Timer } from './timer.model';
@@ -16,11 +18,17 @@ import { CountdownTimerComponent } from './countdown-timer/countdown-timer.compo
   imports: [InputTimerComponent, TwoDigitPipe, CountdownTimerComponent],
   templateUrl: './timers.component.html',
   styleUrl: './timers.component.css',
-  encapsulation: ViewEncapsulation.None,
 })
 export class TimersComponent {
   timers = signal<Timer[]>([]);
-  @ViewChild('pause') pauseElement?: ElementRef<HTMLButtonElement>;
+  isPaused = false;
+  @ViewChildren('pause') pauseButtons?: QueryList<
+    ElementRef<HTMLButtonElement>
+  >;
+  @ViewChildren(CountdownTimerComponent)
+  countdownTimerComponents?: QueryList<CountdownTimerComponent>;
+
+  constructor(private renderer: Renderer2) {}
 
   getMaxId() {
     return Math.max(...this.timers().map((t) => t.id));
@@ -39,20 +47,62 @@ export class TimersComponent {
     });
   }
 
-  changePauseButtonName() {
-    if (!this.pauseElement) {
+  addClassesToPauseButton(button: HTMLButtonElement, isPaused: boolean) {
+    // Toggle classes using Renderer2
+    this.renderer.removeClass(button, isPaused ? 'pause' : 'resume');
+    this.renderer.addClass(button, isPaused ? 'resume' : 'pause');
+  }
+
+  changePauseButtonName(button: HTMLButtonElement) {
+    if (!button) {
       return;
     }
 
-    if (this.pauseElement.nativeElement.innerHTML === 'Pause') {
-      this.pauseElement.nativeElement.innerHTML = 'Resume';
-    } else {
-      this.pauseElement.nativeElement.innerHTML = 'Pause';
+    const isPaused = button.innerText === 'Pause';
+
+    button.innerText = isPaused ? 'Resume' : 'Pause';
+
+    this.addClassesToPauseButton(button, isPaused);
+  }
+
+  onTogglePause(id: number) {
+    if (!this.countdownTimerComponents) {
+      return;
+    }
+
+    for (const component of this.countdownTimerComponents) {
+      if (component.timerId === id) {
+        component.isPaused = !component.isPaused;
+        if (component.isPaused) {
+          component.stopTimer();
+        } else {
+          component.startTimer();
+        }
+        break;
+      }
     }
   }
 
-  onPause() {
-    this.changePauseButtonName();
+  onPause(id: number) {
+    if (!this.pauseButtons) {
+      return;
+    }
+
+    for (const buttonRef of this.pauseButtons) {
+      const button = buttonRef.nativeElement;
+      const timerId = button?.getAttribute('data-timer-id');
+      if (timerId === null) {
+        continue;
+      }
+
+      if (+timerId === id) {
+        this.changePauseButtonName(button);
+        break;
+      }
+    }
+
+    this.onTogglePause(id);
+    this.isPaused = !this.isPaused;
   }
 
   onDelete(id: number) {
