@@ -16,7 +16,7 @@
   </thead>
   <tbody>
     @for(timer of timers(); track timer.id) {
-    <tr appTr [timer]="timer" (delete)="onDelete($event)"></tr>
+    <tr appTr [timer]="timer" (delete)="onDelete(timer.id)"></tr>
     }
   </tbody>
 </table>

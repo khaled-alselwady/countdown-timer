@@ -21,7 +21,7 @@ export class TimerComponent implements OnInit, OnDestroy {
   isPaused: boolean = false;
   seconds = 59;
   private intervalId?: ReturnType<typeof setInterval>;
-  @Output() delete = new EventEmitter<number>();
+  @Output() delete = new EventEmitter<void>();
 
   isTimeOver() {
     return (
@@ -90,6 +90,6 @@ export class TimerComponent implements OnInit, OnDestroy {
   }
 
   onDelete() {
-    this.delete.emit(this.timer.id);
+    this.delete.emit();
   }
 }
