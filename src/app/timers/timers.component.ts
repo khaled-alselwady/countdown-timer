@@ -1,6 +1,7 @@
 import {
   Component,
   ElementRef,
+  OnInit,
   QueryList,
   Renderer2,
   signal,
@@ -19,7 +20,7 @@ import { CountdownTimerComponent } from './countdown-timer/countdown-timer.compo
   templateUrl: './timers.component.html',
   styleUrl: './timers.component.css',
 })
-export class TimersComponent {
+export class TimersComponent implements OnInit {
   timers = signal<Timer[]>([]);
   isPaused = false;
   @ViewChildren('pause') pauseButtons?: QueryList<
@@ -29,6 +30,18 @@ export class TimersComponent {
   countdownTimerComponents?: QueryList<CountdownTimerComponent>;
 
   constructor(private renderer: Renderer2) {}
+
+  ngOnInit() {
+    const timersJson = localStorage.getItem('timers');
+
+    if (timersJson) {
+      this.timers.set(JSON.parse(timersJson));
+    }
+  }
+
+  private saveToLocalStorage() {
+    localStorage.setItem('timers', JSON.stringify(this.timers()));
+  }
 
   getMaxId() {
     return Math.max(...this.timers().map((t) => t.id));
@@ -45,6 +58,8 @@ export class TimersComponent {
       minutes: timerData.minutes,
       title: timerData.title,
     });
+
+    this.saveToLocalStorage();
   }
 
   addClassesToPauseButton(button: HTMLButtonElement, isPaused: boolean) {
@@ -107,5 +122,6 @@ export class TimersComponent {
 
   onDelete(id: number) {
     this.timers.set(this.timers().filter((timer) => timer.id !== id));
+    this.saveToLocalStorage();
   }
 }
