@@ -1,0 +1,18 @@
+<td>{{ timer.title }}</td>
+<td>
+  {{ timer.hours | twoDigit }}:{{ timer.minutes | twoDigit }}:{{
+    seconds | twoDigit
+  }}
+</td>
+<td class="actions">
+  <button
+    [class]="{
+      pause: !isPaused,
+      resume: isPaused
+    }"
+    (click)="onPause()"
+  >
+    @if(isPaused) { Resume } @else { Pause }
+  </button>
+  <button class="delete" (click)="onDelete()">Delete</button>
+</td>

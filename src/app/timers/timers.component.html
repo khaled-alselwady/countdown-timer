@@ -16,30 +16,7 @@
   </thead>
   <tbody>
     @for(timer of timers(); track timer.id) {
-    <tr>
-      <td>{{ timer.title }}</td>
-      <td
-        [time]="{
-          hours: timer.hours,
-          minutes: timer.minutes === 0 ? 0 : timer.minutes - 1,
-          seconds: 59
-        }"
-        [timerId]="timer.id"
-        appTd
-        #togglePause
-      ></td>
-      <td class="actions">
-        <button
-          class="pause"
-          [attr.data-timer-id]="timer.id"
-          (click)="onPause(timer.id)"
-          #pause
-        >
-          Pause
-        </button>
-        <button class="delete" (click)="onDelete(timer.id)">Delete</button>
-      </td>
-    </tr>
+    <tr appTr [timer]="timer" (delete)="onDelete($event)"></tr>
     }
   </tbody>
 </table>

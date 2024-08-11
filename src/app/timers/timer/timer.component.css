@@ -1,0 +1,21 @@
+button {
+  background-color: #c0392b;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  margin-left: 0.5rem;
+}
+
+.actions .delete {
+  background-color: #c0392b;
+}
+
+.actions .pause {
+  background-color: #4169e1;
+}
+
+.actions .resume {
+  background-color: #007bff;
+}
