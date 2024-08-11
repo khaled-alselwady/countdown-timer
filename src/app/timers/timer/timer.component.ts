@@ -56,7 +56,7 @@ export class TimerComponent implements OnInit, OnDestroy {
 
   startTimer() {
     this.stopTimer();
-    this.intervalId = setInterval(() => this.handleCountdownTimer(), 500);
+    this.intervalId = setInterval(() => this.handleCountdownTimer(), 1000);
   }
 
   stopTimer() {
