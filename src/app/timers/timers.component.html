@@ -1,4 +1,4 @@
-<app-input-timer (add)="onAddNewTimer($event)" />
+<app-input-timer />
 
 <table>
   <thead>
@@ -16,7 +16,7 @@
   </thead>
   <tbody>
     @for(timer of timers(); track timer.id) {
-    <tr appTr [timer]="timer" (delete)="onDelete(timer.id)"></tr>
+    <tr appTr [timer]="timer"></tr>
     }
   </tbody>
 </table>

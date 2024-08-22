@@ -1,6 +1,7 @@
-import { Component, output, signal } from '@angular/core';
+import { Component, inject,  signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import type { Timer } from '../timer.model';
+import { TimersService } from '../timers.service';
 
 @Component({
   selector: 'app-input-timer',
@@ -11,7 +12,8 @@ import type { Timer } from '../timer.model';
 })
 export class InputTimerComponent {
   inputTimerData = signal<Timer>({ id: 0, hours: 0, minutes: 0, title: '' });
-  add = output<Timer>();
+
+  private timersService = inject(TimersService);
 
   validateInputs() {
     if (this.inputTimerData().hours < 0) {
@@ -36,7 +38,7 @@ export class InputTimerComponent {
 
   onSubmit() {
     this.validateInputs();
-    this.add.emit({
+    this.timersService.addTimer({
       id: Math.random(),
       hours: this.inputTimerData().hours,
       minutes: this.inputTimerData().minutes,

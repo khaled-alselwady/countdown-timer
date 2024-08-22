@@ -1,13 +1,7 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnDestroy,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { Component, inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { TwoDigitPipe } from '../../shared/two-digit.pipe';
 import { Timer } from '../timer.model';
+import { TimersService } from '../timers.service';
 
 @Component({
   selector: 'tr[appTr]',
@@ -21,7 +15,8 @@ export class TimerComponent implements OnInit, OnDestroy {
   isPaused: boolean = false;
   seconds = 59;
   private intervalId?: ReturnType<typeof setInterval>;
-  @Output() delete = new EventEmitter<void>();
+
+  private timersService = inject(TimersService);
 
   isTimeOver() {
     return (
@@ -90,6 +85,6 @@ export class TimerComponent implements OnInit, OnDestroy {
   }
 
   onDelete() {
-    this.delete.emit();
+    this.timersService.removeTimer(this.timer.id);
   }
 }
