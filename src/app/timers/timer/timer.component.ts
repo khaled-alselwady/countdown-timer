@@ -13,7 +13,7 @@ import { TimersService } from '../timers.service';
 export class TimerComponent implements OnInit, OnDestroy {
   @Input({ required: true }) timer!: Timer;
   isPaused: boolean = false;
-  seconds = 59;
+  seconds = 0;
   private intervalId?: ReturnType<typeof setInterval>;
 
   private timersService = inject(TimersService);
